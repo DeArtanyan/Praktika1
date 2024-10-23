@@ -23,7 +23,9 @@ class Book(models.Model):
         return reverse('book-detail', args=[str(self.id)])
 
 class BookInstance(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text="Unique ID for this particular book across whole library")
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4,
+                          help_text="Unique ID for this particular book across whole library")
+
     book = models.ForeignKey('Book', on_delete=models.SET_NULL, null=True)
     imprint = models.CharField(max_length=200)
     due_back = models.DateField(null=True, blank=True)
@@ -39,7 +41,7 @@ class Meta:
     ordering = ["due_back"]
 
     def __str__(self):
-        return '%s (%s)' % (self.id,self.book.title)
+        return f'{self.book.title} (ID: {self.id}) - Status: {self.get_status_display()}, Due back: {self.due_back if self.due_back else "No due date"}'
 
 class Author(models.Model):
     first_name = models.CharField(max_length=100)
