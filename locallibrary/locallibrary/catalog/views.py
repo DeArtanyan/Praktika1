@@ -1,10 +1,10 @@
 from lib2to3.fixes.fix_input import context
 from re import search
-
 from django.shortcuts import render
 from .models import Book, Author, BookInstance, Genre
 from django.views import generic
 from django.http import Http404
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 class AuthorListView(generic.ListView):
     model = Author
@@ -19,6 +19,7 @@ class AuthorDetailView(generic.DetailView):
 
     def author_detail_view(request, pk):
         try:
+
             author_id = Author.objects.get(pk=pk)
         except Author.DoesNotExist:
             raise Http404("Author does not exist")
@@ -85,3 +86,11 @@ def index(request):
                  'num_instances_available': num_instances_available, 'num_authors': num_authors,
                  'num_visits': num_visits, 'book_count': book_count, 'search_word': search_word},
     )
+
+class LoanedBooksByUserListView(LoginRequiredMixin,generic.ListView):
+    model = BookInstance
+    template_name ='catalog/bookinstance_list_borrowed_user.html'
+    paginate_by = 10
+
+    def get_queryset(self):
+        return BookInstance.objects.filter(borrower=self.request.user).filter(status__exact='o').order_by('due_back')
