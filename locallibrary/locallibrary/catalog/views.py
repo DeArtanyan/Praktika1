@@ -1,10 +1,13 @@
 from lib2to3.fixes.fix_input import context
 from re import search
 from django.shortcuts import render
+from django.views.generic import ListView
+
 from .models import Book, Author, BookInstance, Genre
 from django.views import generic
 from django.http import Http404
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+
 
 class AuthorListView(generic.ListView):
     model = Author
@@ -86,6 +89,18 @@ def index(request):
                  'num_instances_available': num_instances_available, 'num_authors': num_authors,
                  'num_visits': num_visits, 'book_count': book_count, 'search_word': search_word},
     )
+from django.contrib.auth.mixins import PermissionRequiredMixin
+
+class LoanedBooksAllListView(PermissionRequiredMixin, ListView):
+    model = BookInstance
+    permission_required = 'catalog.can_mark_returned'
+    template_name = 'catalog/bookinstance_list_borrowed_all.html'
+    paginate_by = 4
+
+    def get_queryset(self):
+        return BookInstance.objects.filter(status__exact='o').order_by('due_back')
+
+
 
 class LoanedBooksByUserListView(LoginRequiredMixin,generic.ListView):
     model = BookInstance
@@ -144,3 +159,17 @@ class AuthorUpdate(UpdateView):
 class AuthorDelete(DeleteView):
     model = Author
     success_url = reverse_lazy('authors')
+
+from .models import Book
+
+class BookCreate(CreateView):
+    model = Book
+    fields = ['title', 'author', 'summary', 'isbn', 'genre']
+
+class BookUpdate(UpdateView):
+    model = Book
+    fields = ['title', 'author', 'summary', 'isbn', 'genre']
+
+class BookDelete(DeleteView):
+    model = Book
+    success_url = reverse_lazy('books')
