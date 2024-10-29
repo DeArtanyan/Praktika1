@@ -1,12 +1,10 @@
-from lib2to3.fixes.fix_input import context
-from re import search
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import Http404
 from django.shortcuts import render
+from django.views import generic
 from django.views.generic import ListView
 
-from .models import Book, Author, BookInstance, Genre
-from django.views import generic
-from django.http import Http404
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from .models import Book, Author, BookInstance
 
 
 class AuthorListView(generic.ListView):

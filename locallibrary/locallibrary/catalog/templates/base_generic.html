@@ -31,8 +31,8 @@
                 <li><a href="{% url 'login'%}?next={{request.path}}">Login</a></li>
               {% endif %}
             </ul>
-
           {% if user.is_staff %}
+          <hr>
              {% csrf_token %}
              <ul class="sidebar-nav">
                <li>Staff</li>
