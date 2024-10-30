@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-    {% block title %}<title>Local Library</title>{% endblock %}
+    {% block title %}<title>Локальный сайт</title>{% endblock %}
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link
@@ -20,29 +20,29 @@
         <div class="col-sm-2">
           {% block sidebar %}
             <ul class="sidebar-nav">
-              <li><a href="{% url 'index' %}">Home</a></li>
-              <li><a href="{% url 'books' %}">All books</a></li>
-              <li><a href="{% url 'authors'%}">All authors</a></li>
+              <li><a href="{% url 'index' %}">Главная</a></li>
+              <li><a href="{% url 'books' %}">Все книги</a></li>
+              <li><a href="{% url 'authors'%}">Все авторы</a></li>
               {% if user.is_authenticated %}
-                <li>User: {{ user.get_username }}</li>
-                <li><a href="{% url 'my-borrowed' %}">My Borrowed</a></li>
-                <li><a href="{% url 'logout'%}">Logout</a></li>
+                <li>Пользователь: {{ user.get_username }}</li>
+                <li><a href="{% url 'my-borrowed' %}">Взятые книги</a></li>
+                <li><a href="{% url 'logout'%}">Выйти</a></li>
               {% else %}
-                <li><a href="{% url 'login'%}?next={{request.path}}">Login</a></li>
+                <li><a href="{% url 'login'%}?next={{request.path}}">Войти</a></li>
               {% endif %}
             </ul>
           {% if user.is_staff %}
           <hr>
              {% csrf_token %}
              <ul class="sidebar-nav">
-               <li>Staff</li>
-               <li><a href="{% url 'all-borrowed' %}">All borrowed</a></li>
+               <li>Персонал</li>
+               <li><a href="{% url 'all-borrowed' %}">Все взятые книги</a></li>
                {% endif %}
               {% if perms.catalog.add_author %}
-              <li><a href="{% url 'author-create' %}">Create author</a></li>
+              <li><a href="{% url 'author-create' %}">Создать автора</a></li>
               {% endif %}
               {% if perms.catalog.add_book %}
-              <li><a href="{% url 'book-create' %}">Create book</a></li>
+              <li><a href="{% url 'book-create' %}">Создать книгу</a></li>
             {% endif %}
           {% endblock %}
              </ul>
@@ -53,13 +53,13 @@
             <div class="pagination">
               <span class="page-links">
                 {% if page_obj.has_previous %}
-                  <a href="{{ request.path }}?page={{ page_obj.previous_page_number }}">previous</a>
+                  <a href="{{ request.path }}?page={{ page_obj.previous_page_number }}">Назад</a>
                 {% endif %}
                 <span class="page-current">
-                  Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                   Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}.
                 </span>
                 {% if page_obj.has_next %}
-                  <a href="{{ request.path }}?page={{ page_obj.next_page_number }}">next</a>
+                  <a href="{{ request.path }}?page={{ page_obj.next_page_number }}">Вперед</a>
                 {% endif %}
               </span>
             </div>

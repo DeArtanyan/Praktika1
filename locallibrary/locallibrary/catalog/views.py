@@ -23,12 +23,12 @@ class AuthorDetailView(generic.DetailView):
 
             author_id = Author.objects.get(pk=pk)
         except Author.DoesNotExist:
-            raise Http404("Author does not exist")
+            raise Http404("Автора не существует")
 
         return render(
             request,
             'catalog/author_detail.html',
-            context={"author": author_id}
+            context={"Автор": author_id}
         )
 
     def get_context_data(self, **kwargs):
@@ -53,7 +53,7 @@ class BookDetailView(generic.DetailView):
         try:
             book_id = Book.objects.get(pk=pk)
         except Book.DoesNotExist:
-            raise Http404("Book does not exist")
+            raise Http404("Книги не существует")
 
         return render(
             request,

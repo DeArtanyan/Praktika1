@@ -8,10 +8,10 @@
 
 {% if next %}
   {% if user.is_authenticated %}
-    <p>Your account doesn't have access to this page. To proceed,
-    please login with an account that has access.</p>
+    <p>Ваша учетная запись не имеет доступа к этой странице. Чтобы продолжить,
+пожалуйста, войдите в систему с учетной записью, у которой есть доступ.</p>
   {% else %}
-    <p>Please login to see this page.</p>
+    <p>Пожалуйста, войдите в систему, чтобы увидеть эту страницу.</p>
   {% endif %}
 {% endif %}
 
@@ -30,11 +30,11 @@
 </tr>
 </table>
 
-<input type="submit" value="login" />
+<input type="submit" value="Войти" />
 <input type="hidden" name="next" value="{{ next }}" />
 </form>
 
 {# Assumes you setup the password_reset view in your URLconf #}
-<p><a href="{% url 'password_reset' %}">Lost password?</a></p>
+<p><a href="{% url 'password_reset' %}">Забыли пороль?</a></p>
 
 {% endblock %}
